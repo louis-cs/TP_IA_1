@@ -1,4 +1,4 @@
-% lib(listut).       % Placer cette directive en commentaire si vous utilisez Swi-Prolog 
+:- lib(listut).       % Placer cette directive en commentaire si vous utilisez Swi-Prolog 
    
                       % Sinon ne pas modifier si vous utilisez ECLiPSe Prolog :
                       % -> permet de disposer du predicat nth1(N, List, E)
@@ -16,20 +16,20 @@
    % format :  initial_state(+State) ou State est une matrice (liste de listes)
    
 
-/*initial_state([ [b, h, c],       % C'EST L'EXEMPLE PRIS EN COURS
+initial_state([ [b, h, c],       % C'EST L'EXEMPLE PRIS EN COURS
                 [a, f, d],       % 
-                [g,vide,e] ]).   % h1=4,   h2=5,   f*=5*/
+                [g,vide,e] ]).   % h1=4,   h2=5,   f*=5
 
 
 
 % AUTRES EXEMPLES POUR LES TESTS DE  A*
 
 
-initial_state([ [ a, b, c],        
+/*initial_state([ [ a, b, c],        
                 [ g, h, d],
                 [vide,f, e] ]). % h2=2, f*=2
 
-/*initial_state([ [b, c, d],
+initial_state([ [b, c, d],
                 [a,vide,g],
                 [f, h, e]  ]). % h2=10 f*=10
 			
@@ -145,7 +145,13 @@ bien_place(Elem) :-
     final_state(Fin),
     select_elem(Ini,Elem,C,L),
     select_elem(Fin,Elem,C,L).
-    
+
+mal_place(Mat, Elem) :- 
+    final_state(Fin),
+    select_elem(Mat,Elem,C1,L1),
+    select_elem(Fin,Elem,C2,L2),
+    [C1,L1] \= [C2,L2],
+    Elem \= vide.
    
    %*******************
    % PARTIE A COMPLETER
@@ -190,9 +196,9 @@ heuristique(U,H) :-
    % par rapport a l'etat final F
 
    
-    heuristique1(U, H) :- true.     %********
-                                    % A FAIRE
-                                    %********
+heuristique1(U, H) :- 
+    findall(Elem,mal_place(U,Elem),SuperList),
+    length(SuperList,H).
    
    
    %****************
