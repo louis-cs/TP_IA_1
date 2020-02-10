@@ -1,4 +1,4 @@
-:- lib(listut).       % Placer cette directive en commentaire si vous utilisez Swi-Prolog 
+% lib(listut).       % Placer cette directive en commentaire si vous utilisez Swi-Prolog 
    
                       % Sinon ne pas modifier si vous utilisez ECLiPSe Prolog :
                       % -> permet de disposer du predicat nth1(N, List, E)
@@ -16,20 +16,20 @@
    % format :  initial_state(+State) ou State est une matrice (liste de listes)
    
 
-initial_state([ [b, h, c],       % C'EST L'EXEMPLE PRIS EN COURS
+/*initial_state([ [b, h, c],       % C'EST L'EXEMPLE PRIS EN COURS
                 [a, f, d],       % 
-                [g,vide,e] ]).   % h1=4,   h2=5,   f*=5
+                [g,vide,e] ]).   % h1=4,   h2=5,   f*=5*/
 
 
 
 % AUTRES EXEMPLES POUR LES TESTS DE  A*
 
-/*
+
 initial_state([ [ a, b, c],        
                 [ g, h, d],
                 [vide,f, e] ]). % h2=2, f*=2
 
-initial_state([ [b, c, d],
+/*initial_state([ [b, c, d],
                 [a,vide,g],
                 [f, h, e]  ]). % h2=10 f*=10
 			
@@ -56,9 +56,13 @@ final_state([[a, b,  c],
              [h,vide, d],
              [g, f,  e]]).
 
+final_state4x4([[1, 2, 3, 4],
+             [5, 6, 7, 8],
+             [9, 10, 11, 12],
+             [13, 14, 15, vide]]).
 			 
    %********************
-   % AFFICHAGE D'UN ETAT
+   % AFFICHAGE DUN ETAT
    %********************
    % format :  write_state(?State) ou State est une liste de lignes a afficher
 
@@ -116,7 +120,7 @@ vertical_permutation(X,Y,S1,S2) :-
    append(Above, [Line3,Line4|Below], S2). % recompose S2 
 
    %***********************************************************************
-   % Retrait d'une occurrence X en position N dans une liste L (resultat R) 
+   % Retrait dune occurrence X en position N dans une liste L (resultat R) 
    %***********************************************************************
    % use case 1 :   delete(?N,?X,+L,?R)
    % use case 2 :   delete(?N,?X,?L,+R)   
@@ -126,15 +130,29 @@ delete(N,X,[Y|L], [Y|R]) :-
    delete(N1,X,L,R),
    N is N1 + 1.
 
-
    
+   %***********************************************************************
+   % Sélection dun élément dans une position et renvoi des coordonnées
+   % OU Clarification de lélément en fonction des coordonnées données 
+   %***********************************************************************
+   
+select_elem(Mat,Elem,C,L) :-
+    nth1(L,Mat,Ligne), 
+    nth1(C,Ligne,Elem).
+
+bien_place(Elem) :-
+    initial_state(Ini),
+    final_state(Fin),
+    select_elem(Ini,Elem,C,L),
+    select_elem(Fin,Elem,C,L).
+    
    
    %*******************
    % PARTIE A COMPLETER
    %*******************
    
    %*******************************************************************
-   % Coordonnees X(colonne),Y(Ligne) d'une piece P dans une situation U
+   % Coordonnees X(colonne),Y(Ligne) dune piece P dans une situation U
    %*******************************************************************
 	% format : coordonnees(?Coord, +Matrice, ?Element)
 	% Définit la relation entre des coordonnees [Ligne, Colonne] et un element de la matrice
@@ -188,5 +206,4 @@ heuristique(U,H) :-
     heuristique2(U, H) :- true.     %********
                                     % A FAIRE
                                     %********
-									
-									
+							
