@@ -153,9 +153,6 @@ mal_place(Mat, Elem) :-
     [C1,L1] \= [C2,L2],
     Elem \= vide.
    
-   %*******************
-   % PARTIE A COMPLETER
-   %*******************
    
    %*******************************************************************
    % Coordonnees X(colonne),Y(Ligne) dune piece P dans une situation U
@@ -175,11 +172,33 @@ mal_place(Mat, Elem) :-
 	*/
 
 	
-	coordonnees([L,C], Mat, Elt) :- true.    %********
-											 % A FAIRE
-											 %********
+	coordonnees([L,C], Mat, Elt) :-
+        select_elem(Mat,Elt,C,L).
 
-											 
+   %*************
+   % DISTANCE DE MANHATTAN
+   %*************
+
+    /*manhattan_once([L1,C1],[L2,C2],Dist) :- 
+        V1 is abs(L1-L2),
+        V2 is abs(C1-C2),
+        sumlist([V1,V2],Dist).
+
+    aux([],Mat,0).
+
+    aux([H|T], Mat, Dist) :-
+        T \= [], 
+        final_state(Fin), 
+        coordonnees([L2,C2],Fin,H),
+        coordonnees([L,C],Mat,H),
+        manhattan_once([L,C],[L2,C2],Mem),
+        manhattanlist(T, Mat, Dist+Mem).(Ini)*/
+    manhattan(Elem,M1,M2,D) :- 
+        coordonnees([L1,C1],M1,Elem),
+        coordonnees([L2,C2],M2,Elem),
+        sumlist([abs(L1-L2),abs(C1-C2)],D).		
+
+    						 
    %*************
    % HEURISTIQUES
    %*************
@@ -206,10 +225,23 @@ heuristique1(U, H) :-
    %****************
    
    % Somme des distances de Manhattan à parcourir par chaque piece
-   % entre sa position courante et sa positon dans l'etat final
+   % entre sa position courante et sa positon dans letat final
 
-   
-    heuristique2(U, H) :- true.     %********
-                                    % A FAIRE
-                                    %********
+heuristique2(U,Fin,Dist) :-
+    flatten(U,Mylist),     
+    aux(Mylist,U,Fin, Dist).
+
+aux([], State, Fin, 0). 
+
+aux([H|T],State,Fin, Tot) :-
+
+    aux(T,State,Fin, Dist),
+    manhattan(H, State, Fin, Mem),
+    Tot is Dist+Mem.
+
+
+
+
+
+    
 							
