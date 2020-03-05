@@ -1,11 +1,11 @@
-:- lib(listut).       % Placer cette directive en commentaire si vous utilisez Swi-Prolog 
+/*:- lib(listut).       % Placer cette directive en commentaire si vous utilisez Swi-Prolog 
    
                       % Sinon ne pas modifier si vous utilisez ECLiPSe Prolog :
                       % -> permet de disposer du predicat nth1(N, List, E)
                       % -> permet de disposer du predicat sumlist(List, S)
                       % (qui sont predefinis en Swi-Prolog)
 
-                      
+      */                
 %***************************
 %DESCRIPTION DU JEU DU TAKIN
 %***************************
